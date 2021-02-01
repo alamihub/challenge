@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@coreui/coreui@3.4.0/dist/css/coreui.min.css">
+    <link rel="stylesheet" href="https://kit-free.fontawesome.com/releases/latest/css/free.min.css">
+    <link rel="stylesheet" href="signin.css">
+    <!-- <script src="https://apis.google.com/js/api.js"></script> -->
+    <title>Workspace Adminer</title>
+</head>
+
+<body class="c-app">
+        <!-- <div class="c-sidebar c-sidebar-dark c-sidebar-fixed c-sidebar-lg-show" id="sidebar">
+
+        </div> -->
+        <div class="c-wrapper c-fixed-components">
+            <header class="c-header c-header-dark c-header-fixed c-header-with-subheader">
+                <button class="c-header-toggler c-class-toggler d-lg-none mfe-auto" type="button" data-target="#sidebar" data-class="c-sidebar-show"></button>
+                <li class="c-header-nav d-md-down-none ml-auto mr-4 ">
+                    <!-- <div id="signin"></div> -->
+                    <!-- <div style="height:50px;width:240px;" class="abcRioButton abcRioButtonBlue">
+                    </div> -->
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-info mr-2" data-toggle="modal" data-target="#credentialsModal">
+                        Get Credentials
+                    </button>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#authUrlModal">
+                        Authorize App
+                    </button>
+
+                </li>
+            </header>
+            <div class="c-body">
+                <!-- Modal -->
+                <div class="modal fade" id="authUrlModal" tabindex="-1" role="dialog" aria-labelledby="authUrlModalTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                    <form id="auth" class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title" >Authorize App</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                        <div class="modal-body">
+                            <h5>Auth Url</h5>
+                            <p>Get code from <a id="AuthUrl" href="#" target="_blank">This link</a> and Past it below</p>
+                            <hr>
+                                <div class="form-group">
+                                    <input type="text" class="form-control col-xl-12" name="authcode" id="authCode" placeholder="Paste copied Code here">
+                                </div>
+                        </div>
+                        <div class="modal-footer">
+                        <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+                        <button type="submit" class="btn btn-primary">Save Token</button>
+                        </div>
+                    </form>
+                    </div>
+                </div>
+                <div class="modal fade" id="credentialsModal" tabindex="-1" role="dialog" aria-labelledby="credentialsModalTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                    <form id="credJson" class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title" >Admin SDK Credentials</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                        <div class="modal-body">
+                            <h5>Enable Admin SDK Api and get credentials</h5>
+                            <p>Go to <a href="https://developers.google.com/admin-sdk/directory/v1/quickstart/nodejs" target="_blank">This link</a> and Click on  "Enable The Directoty API" button, follow steps, grab credentials.json file and upload it here</p>
+                            <hr>
+                                <div class="form-group">
+                                    <div class="custom-file">
+                                        <input type="file" name="json" class="custom-file-input" id="json-selector" accept=".json">
+                                        <label class="custom-file-label" for="file-selector">Select downloaded credentials.json file</label>
+                                    </div>
+                                </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" name="save" id="save" class="btn btn-primary">Save</button>
+                        </div>
+                    </form>
+                    </div>
+                </div>
+                <div class="modal fade" id="backend-msg" tabindex="-1" role="dialog" aria-labelledby="messageTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title" >Operations Report</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                        <div id="msg-dody" class="modal-body">
+                            <h5 id="info"></h5>
+                            <table id="table" class="table table-striped">
+                                <thead>
+                                  <tr>
+                                    <th scope="col">Message</th>
+                                    <th scope="col">Reason</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                              </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                <main class="c-main position-relative">
+                    <div class="toast message" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="true" data-delay="3000">
+                        <div id="message" class="toast-body ">
+                            <button type="button" class="close" data-dismiss="toast" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="container-fluid ">
+                        <div class="fade-in ">
+                            <div class="row">
+                                <div class="col-sm-12 col-xl-12">
+                                    <div class="card">
+                                        <div class="card-header">Emails Lists</div>
+                                        <form id="upload" name="upload" class="crad-body m-2 p-2" enctype="multipart/form-data">
+                                            <div class="row">
+                                                <div class="col-sm-4 col-xl-4">
+                                                    <div class="form-group">
+                                                        <div class="custom-file">
+                                                            <input type="file" name="file" class="custom-file-input" id="file-selector" accept=".text">
+                                                            <label class="custom-file-label" for="file-selector">Select Email List</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <!--  -->
+                                                        <input type="text" class="form-control col-xl-12" name="domain" id="domain" placeholder="G-suite Domain">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4 col-xl-4">
+                                                        <div class="form-group">
+                                                            <input type="text" class="form-control col-xl-12" name="grpPrefixe" id="grpPrefixe" placeholder="Group Prefixe">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <input type="email" class="form-control col-xl-12" name="email" id="email" placeholder="Test Email">
+                                                        </div>
+                                                </div>
+                                                <div class="col-sm-4 col-xl-4">
+                                                        <div class="form-group">
+                                                            <input type="number" class="form-control col-xl-6" name="chunksize" id="chunksize" placeholder="Emails per Group">
+                                                        </div>
+                                                    <div class="form-group">
+                                                            <button type="submit" class=" btn btn-primary col-xl-6" name="submit" id="submit">Upload</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-header">Groups Management</div>
+                                        <form id="manage"  name="manage" class="card-body m-2 p-2">
+                                            <div class="row">
+                                                <div class="col-sm-4 col-xl-4">
+                                                    <div class="form-group">
+                                                        <select id="slectList" name="selectList" class="form-control col-xl-12"></select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-8 col-xl-8">
+                                                    <div class="d-flex flex-row justify-content-around">
+                                                        <div class="col-form-label">
+                                                            <label>Counts:  <span class="text-primary" id="cts"></span></label>
+                                                        </div>
+                                                        <div class="col-form-label">
+                                                            <label>Prefixe:  <span class="text-primary" id="prx"></span></label>
+                                                        </div>
+                                                        <div class="col-form-label">
+                                                            <label>Grp Size:  <span class="text-primary" id="gsize"></span></label>
+                                                        </div>
+                                                        <div class="col-form-label">
+                                                            <label>Test Email:  <span class="text-primary" id="testEmail"></span></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-6 col-xl-6">
+                                                    <div class="row d-flex ">
+                                                        <!-- <div class="col-sm-6 col-xl-6">  -->
+                                                            <div class="form-group mx-4">
+                                                                <button id="createGrps" class="btn btn-outline-primary">
+                                                                    <i class="fas fa-users mr-2"></i>Create Groups
+                                                                </button>
+                                                            <!-- </div> -->
+                                                        </div>
+                                                        <!-- <div class="col-sm-6 col-xl-6">  -->
+                                                            <div class="form-group">
+                                                                <button id="upldEmails" class="btn btn-outline-success">
+                                                                    <i class="fas fa-envelope-square mr-2"></i>Insert Emails
+                                                                </button>
+                                                            </div>
+                                                        <!-- </div> -->
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 col-xl-6">
+                                                    <div class="form-group py-3 ">
+                                                        <div class="progress">
+                                                            <div id="progressBar" class="progress-bar " role="progressbar"  aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+
+
+    <!-- Optional JavaScript -->
+    <!-- Popper.js first, then CoreUI JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@coreui/coreui@3.4.0/dist/js/coreui.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.20/lodash.min.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
