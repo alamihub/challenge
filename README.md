@@ -50,4 +50,4 @@ For server deployement on CentOS 7 or 8 i used [PM2](https://pm2.keymetrics.io/)
 - Clone this git or copy all  files to : '/usr/app/'
 - Run script shell setup.sh
 
-the script will install node-js, app dependencies, pm2 services , ngix web server and configure nginx as a Proxy-server for node.
+the script will install node-js, app dependencies, pm2 services , nginx web server and configure nginx as a Proxy-server for node.
