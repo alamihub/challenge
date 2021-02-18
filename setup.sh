@@ -46,11 +46,11 @@ npm install
 echo "
 module.exports = {
   apps : [{
-    name: "app",
+    name: "\app\",
     script: '/usr/app/server.js',
     watch: false,
     env: {
-      NODE_ENV: "production",
+      NODE_ENV: \"production\",
       PORT: $Port
     }
   }],
